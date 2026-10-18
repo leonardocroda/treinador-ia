@@ -28,10 +28,6 @@ Esta série monta, passo a passo, o que antes era privilégio de plataformas pag
 
 Seu login do Garmin fica **só no seu computador**. Os dados que você pede para analisar passam pela API do modelo que você escolher — como qualquer IA em nuvem, inclusive quando você manda um print de treino para um chatbot. O que muda aqui: a IA **busca tudo sozinha, com o contexto completo, e compara com as suas zonas**.
 
-## Acompanhe a série de vídeos
-
-Este guia nasceu junto de uma série de vídeos no meu Instagram — se você chegou por aqui por um deles, bem-vindo(a). *(link do perfil aqui)*
-
 ---
 
 **Créditos:** conector Garmin — [Taxuspt/garmin_mcp](https://github.com/Taxuspt/garmin_mcp) via [python-garminconnect](https://github.com/cyberjunky/python-garminconnect) · habilidades de corrida (zonas VDOT, análise, treinos, imagem do story) — [@leonardocroda](https://github.com/leonardocroda) no [fork com as skills](https://github.com/leonardocroda/garmin_mcp) · zonas de ritmo — método VDOT de *Jack Daniels' Running Formula* · IA — [OpenCode](https://opencode.ai) + modelos via [NVIDIA build](https://build.nvidia.com)
