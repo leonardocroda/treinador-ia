@@ -1,0 +1,50 @@
+site_name: Seu Treinador de IA de Corrida
+site_description: Monte no seu PC uma IA que avalia seus treinos do Garmin com as suas zonas, cria treinos direto no relógio e gera a foto pronta pro story.
+site_url: https://leonardocroda.github.io/treinador-ia
+repo_url: https://github.com/leonardocroda/treinador-ia
+repo_name: leonardocroda/treinador-ia
+copyright: Feito com MkDocs Material · conteúdo sob CC BY 4.0
+
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Mudar para modo escuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Mudar para modo claro
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Início: index.md
+  - "1 · OpenCode do zero": tutorial-1-opencode-do-zero.md
+  - "2 · Modelos melhores (NVIDIA)": tutorial-2-nvidia-modelos.md
+  - "3 · Conecte seu Garmin": tutorial-3-garmin-mcp.md

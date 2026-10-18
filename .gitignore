@@ -1,0 +1,3 @@
+# build output do MkDocs
+site/
+__pycache__/
