@@ -245,6 +245,7 @@ Edite `%APPDATA%\Claude\claude_desktop_config.json` (Settings → Developer → 
 | Login Garmin recusado | Confira a senha em https://connect.garmin.com primeiro; com MFA, use o código que o Garmin manda na hora |
 | Garmin parou de responder depois de meses | Token expirou (~6 meses): `uv run garmin-mcp-auth --force-reauth` (na pasta) ou o comando `uvx` do login com `--force-reauth` |
 | `opencode mcp list` mostra o garmin como connecting/não conecta | Primeira execução baixa o servidor — rode o aquecimento da Rota B e tente de novo. Se persistir, rode o opencode de dentro de `C:\garmin-ia` |
+| Conecta (`✓ garmin connected`), mas toda chamada trava em "Request timed out" | Seu `opencode.json` é de uma versão antiga, com timeout de 30s por requisição — baixe o ZIP de novo (Passo 1.3) e extraia por cima, ou use a [Rota B](#rota-b-ja-uso-o-opencode-com-outro-provedor) |
 | A IA diz que não encontrou as zonas | Você ainda não calibrou — rode `calibra minhas zonas` (Parte 3) |
 | A geração de imagem falha | Falta o Playwright — rode o Passo 1.6 |
 | Windows bloqueou o `uv` (Smart App Control) | Siga [esta seção do README do projeto](https://github.com/leonardocroda/garmin_mcp#windows-smart-app-control-blocks-uv--uvx) |
