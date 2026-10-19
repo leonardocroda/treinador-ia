@@ -3,8 +3,8 @@
 > Parte 3 de 3 da série "Seu treinador de IA de corrida".
 > Pré-requisitos: [Tutorial 1](./tutorial-1-opencode-do-zero.md) (OpenCode instalado) e [Tutorial 2](./tutorial-2-nvidia-modelos.md) (modelo conectado).
 > ⏱ Tempo: ~30 min · 💰 Custo: R$0
-> **Já usa o OpenCode com outro provedor?** Pule direto para a [Rota B](#rota-b-global-seus-dados-em-qualquer-pasta).
-> **Quer usar o Claude em vez do OpenCode?** Vá para a [Rota C](#rota-c-usar-no-claude).
+> **Prefere tudo numa pasta só, sem instalar nada global?** Veja a [Rota B](#rota-b).
+> **Quer usar o Claude em vez do OpenCode?** Vá para a [Rota C](#rota-c).
 
 **Ao final você terá uma IA que, sozinha:**
 
@@ -12,7 +12,7 @@
 - 🗓️ **Monta treinos e joga no calendário do Garmin** — "cria um 5x1km com 2min de recovery pra terça" aparece no seu relógio
 - 📸 **Gera a foto do treino pronta pro story** — 1080×1920, com gráfico de ritmo e coração
 
-Tudo por conversa, no navegador. Os comandos abaixo são os únicos do processo inteiro — depois disso, é só pedir.
+Tudo por conversa, no navegador — **funcionando em qualquer pasta** do OpenCode.
 
 ---
 
@@ -24,7 +24,7 @@ Três peças conversando:
 2. **Um conector open source** ([garmin_mcp](https://github.com/Taxuspt/garmin_mcp)) no seu PC que dá à IA acesso de leitura (e criação de treinos) — o "MCP" é só o nome do protocolo que permite isso. Seu login do Garmin fica **só no seu computador**.
 3. **A IA** (OpenCode + o modelo que você conectou no Tutorial 2), que agora sabe buscar seus dados quando você pede.
 
-Além do conector, existe um pacote com **4 habilidades de corrida** prontas — as instruções que ensinam a IA a ser treinadora (calibrar zonas VDOT, avaliar treino contra elas, criar treinos, gerar a imagem do story). É o que separa "uma IA com seus dados" de "um treinador".
+Além do conector, existem **4 habilidades de corrida** prontas — as instruções que ensinam a IA a ser treinadora (calibrar zonas VDOT, avaliar treino contra elas, criar treinos, gerar a imagem do story). É o que separa "uma IA com seus dados" de "um treinador".
 
 ---
 
@@ -60,42 +60,56 @@ Ele pede **e-mail → senha → código MFA** (se sua conta tiver).
 
 ---
 
-## Qual rota é a sua?
+## Qual rota é a sua? {: #qual-rota }
 
 | Sua situação | Rota | O que você ganha |
 |---|---|---|
-| Primeira vez / não uso OpenCode ainda / quero o treinador **completo** com o mínimo de passos | **[Rota A](#rota-a-o-pacote-do-treinador-recomendada-na-primeira-vez)** (recomendada) | Tudo em uma pasta: conector + habilidades funcionando sozinhos |
-| Já uso o OpenCode com outro modelo/projeto / quero os dados do Garmin **em qualquer pasta** | **[Rota B](#rota-b-global-seus-dados-em-qualquer-pasta)** | Conector global em 2 comandos (+ habilidades em 1 passo, se quiser o treinador completo) |
-| Quero usar o **Claude** (Desktop/Code), não o OpenCode | **[Rota C](#rota-c-usar-no-claude)** | Seus dados do Garmin no Claude |
+| Quero o mais simples possível / uso o OpenCode onde der / primeira vez | **[Rota A](#rota-a)** (recomendada) | Treinador instalado globalmente — funciona em qualquer pasta, 4 comandos de colar |
+| Prefiro tudo isolado **numa única pasta** (fácil de apagar depois) | **[Rota B](#rota-b)** | O mesmo treinador, morando num diretório só |
+| Quero usar o **Claude** (Desktop/Code), não o OpenCode | **[Rota C](#rota-c)** | Seus dados do Garmin no Claude |
 
-> 💡 **A diferença em uma frase:** o conector (dados) pode ser global em qualquer rota; as **habilidades de treinador** (zonas VDOT, análise, treinos, story) são um pacote de arquivos — na Rota A ele já vem pronto na pasta, na Rota B você o instala à mão.
+> 💡 **A diferença em uma frase:** as duas primeiras rotas instalam exatamente o mesmo conjunto (conector + habilidades). A A deixa o OpenCode enxergar isso em qualquer pasta; a B concentra tudo num diretório. Escolha pela preferência — o resultado do dia a dia é o mesmo.
 
 ---
 
-## ROTA A — O pacote do treinador (recomendada na primeira vez)
+## ROTA A — Instalação global (a mais simples) {: #rota-a }
 
-Pense nela como instalar um app: você baixa **uma pasta** uma única vez, e ela passa a ser onde o treinador mora. O OpenCode, ao abrir dentro dela, encontra o conector **e** as habilidades sozinho — sem você configurar nada à mão.
+A partir daqui, seu treinador está disponível no OpenCode **em qualquer pasta** — você abre onde estiver trabalhando e conversa.
 
-### A.1 — Baixar o pacote (ZIP, sem GitHub, sem Git)
+### A.1 — Conectar o Garmin ao OpenCode
 
-1. Abra o repositório: https://github.com/leonardocroda/garmin_mcp
-2. Botão verde **`<> Code`** → **Download ZIP**
-3. Clique com o direito → **Extrair tudo…** → extraia em **`C:\garmin-ia`**
-
-> Se o Windows extrair como `garmin_mcp-main`, renomeie a pasta para `garmin-ia`.
-
-✅ **Checkpoint:** dentro de `C:\garmin-ia` existem `pyproject.toml`, `opencode.json` e a pasta `.opencode` (as habilidades de corrida moram lá).
-
-### A.2 — Instalar o conector
+Primeiro, um aquecimento (baixa o conector e evita timeout na primeira conexão):
 
 ```powershell
-cd C:\garmin-ia
-uv sync
+uvx --python 3.12 --from git+https://github.com/leonardocroda/garmin_mcp garmin-mcp
 ```
 
-Baixa o Python e as dependências do servidor. Pode demorar alguns minutos na primeira vez.
+Espere aparecer o log de inicialização (algo como "Trying to login…") e feche com `Ctrl+C`.
 
-✅ **Checkpoint:** termina sem erro vermelho.
+Agora, o registro global:
+
+```powershell
+opencode mcp add garmin --global -- uvx --python 3.12 --from git+https://github.com/leonardocroda/garmin_mcp garmin-mcp
+opencode mcp list
+```
+
+✅ **Checkpoint:** `opencode mcp list` mostra:
+
+```text
+✓ garmin   connected
+```
+
+### A.2 — Instalar as habilidades do treinador
+
+Um comando — baixa e instala as 4 habilidades (calibrar zonas, analisar treino, criar treinos, gerar a foto do story) na pasta global do OpenCode:
+
+```powershell
+iex ((New-Object Net.WebClient).DownloadString("https://leonardocroda.github.io/treinador-ia/install-skills.ps1"))
+```
+
+✅ **Checkpoint:** o script lista as habilidades instaladas (`analyze-garmin-run`, `calibrate-garmin-zones`, `create-garmin-training`, `generate-run-summary-image`) e a pasta delas.
+
+> 🔍 **Transparência:** não gosta de colar comandos às cegas? Justo. Este script só baixa o repositório de origem e copia a pasta `.opencode/skills` para `%USERPROFILE%\.config\opencode\skills` — [leia o código-fonte aqui](https://github.com/leonardocroda/treinador-ia/blob/main/docs/install-skills.ps1) (é curto). Para remover depois: apague essa pasta.
 
 ### A.3 — Gerador de imagem (recomendado, ~2 min)
 
@@ -108,26 +122,17 @@ python -m playwright install chromium
 
 ✅ **Checkpoint:** o segundo comando baixa o Chromium e termina sem erro.
 
-### A.4 — Abrir a IA dentro da pasta do treinador
+### A.4 — Teste de fumaça 🎉
 
-O OpenCode descobre o que existe na pasta em que você o abre. Dentro de `C:\garmin-ia`, ele encontra o conector Garmin **e** as habilidades de corrida sozinho:
+Abra o OpenCode **em qualquer pasta** (só não dentro da instalação dele):
 
 ```powershell
-cd C:\garmin-ia
 opencode pair     # interface web (abra o link que aparecer)
 # ou
 opencode          # interface no terminal
 ```
 
-✅ **Checkpoint:** em outro PowerShell, rode `opencode mcp list` — deve mostrar:
-
-```text
-✓ garmin   connected
-```
-
-> Se aparecer "connecting" na primeira vez, espere alguns segundos e rode de novo.
-
-**Teste de fumaça 🎉** — na conversa, digite:
+Na conversa, digite:
 
 ```text
 pega meu treino de ontem
@@ -143,10 +148,9 @@ Suas zonas de ritmo são pessoais: nascem do **seu** último teste. Na conversa:
 calibra minhas zonas
 ```
 
-Ela entrevista você: **qual foi seu último teste** (5K, 10K, meia…) → **tempo** → **data**. Calcula seu VDOT (método Jack Daniels) e salva suas 5 zonas num arquivo que fica só no seu PC (`vdot_zones.json`). Todas as análises passam a usar essas zonas.
+Ela entrevista você: **qual foi seu último teste** (5K, 10K, meia…) → **tempo** → **data**. Calcula seu VDOT (método Jack Daniels) e salva suas 5 zonas num arquivo que fica só no seu PC. Todas as análises passam a usar essas zonas.
 
 > 🏃 Sem teste recente? Vale qualquer resultado cronometrado honesto — 10K serve, 5K serve. Quando fizer um teste novo, é só pedir "calibra minhas zonas" de novo.
-> 📄 O arquivo de exemplo `vdot_zones.example.json` na pasta da habilidade mostra o formato, com dados fictícios (VDOT 45).
 
 ### A.6 — A rotina (as frases mágicas)
 
@@ -160,54 +164,57 @@ Ela entrevista você: **qual foi seu último teste** (5K, 10K, meia…) → **te
 
 Depois de sincronizar, os treinos criados aparecem no calendário do relógio. No dia, é apertar play — o relógio apita cada série no ritmo certo.
 
-> 💡 **Quer isso funcionando em qualquer pasta, não só em `C:\garmin-ia`?** Depois que tudo estiver rodando, dá pra globalizar o conector e as habilidades com a [Rota B](#rota-b-global-seus-dados-em-qualquer-pasta) — sem perder nada do que você já configurou.
-
 ---
 
-## ROTA B — Global: seus dados em qualquer pasta
+## ROTA B — Pacote do treinador (tudo numa pasta) {: #rota-b }
+
+A mesma experiência da Rota A, mas tudo mora num único diretório — e some do sistema se você apagá-lo. Pense como instalar um app: você baixa **uma pasta** uma única vez, e ela passa a ser onde o treinador mora. O OpenCode, ao abrir dentro dela, encontra o conector **e** as habilidades sozinho.
 
 > **Pré-requisito:** a [Preparação](#preparacao) acima (Python, uv e login do Garmin feitos).
->
-> **O que esta rota entrega sozinha:** o conector — você conversa com seus dados do Garmin em **qualquer pasta** do OpenCode. **O treinador completo** (análise com suas zonas VDOT, treinos com seu ritmo, foto do story) vem das habilidades do passo B.3 — sem elas, a análise fica genérica e a imagem do story não existe.
 
-**B.1 — Aquecer o cache (evita timeout na primeira conexão):**
+### B.1 — Baixar o pacote (ZIP, sem GitHub, sem Git)
 
-```powershell
-uvx --python 3.12 --from git+https://github.com/leonardocroda/garmin_mcp garmin-mcp
-```
+1. Abra o repositório: https://github.com/leonardocroda/garmin_mcp
+2. Botão verde **`<> Code`** → **Download ZIP**
+3. Clique com o direito → **Extrair tudo…** → extraia em **`C:\garmin-ia`**
 
-Espere aparecer o log de inicialização (algo como "Trying to login…") e feche com `Ctrl+C`.
+> Se o Windows extrair como `garmin_mcp-main`, renomeie a pasta para `garmin-ia`.
 
-**B.2 — Adicionar o servidor globalmente:**
+✅ **Checkpoint:** dentro de `C:\garmin-ia` existem `pyproject.toml`, `opencode.json` e a pasta `.opencode` (as habilidades de corrida moram lá).
 
-```powershell
-opencode mcp add garmin --global -- uvx --python 3.12 --from git+https://github.com/leonardocroda/garmin_mcp garmin-mcp
-opencode mcp list
-```
-
-✅ **Checkpoint:** `opencode mcp list` mostra `✓ garmin connected` — em qualquer projeto. Teste: `pega meu treino de ontem`.
-
-**B.3 — As habilidades de treinador (recomendado):**
-
-1. Baixe o pacote e extraia em `C:\garmin-ia` como no [Passo A.1](#a1-baixar-o-pacote-zip-sem-github-sem-git)
-2. Copie as habilidades para a pasta global do OpenCode:
+### B.2 — Instalar o conector
 
 ```powershell
-Copy-Item -Recurse C:\garmin-ia\.opencode\skills\* "$env:USERPROFILE\.config\opencode\skills\"
+cd C:\garmin-ia
+uv sync
 ```
 
-✅ **Checkpoint:** em qualquer projeto, peça `avalia meu treino de hoje` — na primeira vez a IA pede para calibrar suas zonas (comportamento correto: `calibra minhas zonas`).
+Baixa o Python e as dependências do servidor. Pode demorar alguns minutos na primeira vez.
 
-**B.4 — Gerador de imagem (se quiser o story):**
+✅ **Checkpoint:** termina sem erro vermelho.
+
+### B.3 — Gerador de imagem (recomendado)
+
+Os mesmos dois comandos da Rota A — [Passo A.3](#a3-gerador-de-imagem-recomendado-2-min).
+
+### B.4 — Abrir a IA dentro da pasta do treinador
 
 ```powershell
-python -m pip install playwright
-python -m playwright install chromium
+cd C:\garmin-ia
+opencode pair     # interface web (abra o link que aparecer)
+# ou
+opencode          # interface no terminal
 ```
+
+✅ **Checkpoint:** em outro PowerShell, rode `opencode mcp list` — deve mostrar `✓ garmin connected`. Teste de fumaça: peça `pega meu treino de ontem`.
+
+**Zonas e rotina:** idênticas à [Rota A](#rota-a) — [A.5](#a5-calibrar-suas-zonas-antes-da-primeira-analise) e [A.6](#a6-a-rotina-as-frases-magicas).
+
+> 💡 **Mudou de ideia e quer isso em qualquer pasta?** Rode a [Rota A](#rota-a) depois — nada do que você configurou aqui se perde.
 
 ---
 
-## ROTA C — Usar no Claude
+## ROTA C — Usar no Claude {: #rota-c }
 
 O conector é um servidor MCP padrão: funciona no Claude Desktop (e Claude Code) igual ao OpenCode. O que muda é só onde você cola a configuração.
 
@@ -254,26 +261,27 @@ Edite `%APPDATA%\Claude\claude_desktop_config.json` (Settings → Developer → 
 
 ---
 
-## Deu ruim?
+## Deu ruim? {: #deu-ruim }
 
 | Sintoma | Solução |
 |---|---|
 | "uv não é reconhecido" / "python não é reconhecido" | Feche **todas** as janelas do PowerShell e abra uma nova |
 | Login Garmin recusado | Confira a senha em https://connect.garmin.com primeiro; com MFA, use o código que o Garmin manda na hora |
 | Garmin parou de responder depois de meses | Token expirou (~6 meses): rode o login da Preparação com `--force-reauth` no fim |
-| `opencode mcp list` mostra o garmin como connecting/não conecta | Primeira execução baixa o servidor — rode o aquecimento da Rota B e tente de novo. Se persistir, rode o opencode de dentro de `C:\garmin-ia` |
-| Conecta (`✓ garmin connected`), mas toda chamada trava em "Request timed out" | Seu `opencode.json` é de uma versão antiga, com timeout de 30s por requisição — baixe o ZIP de novo (Passo A.1) e extraia por cima, ou use a [Rota B](#rota-b-global-seus-dados-em-qualquer-pasta) |
+| `opencode mcp list` mostra o garmin como connecting/não conecta | Primeira execução baixa o servidor — rode o aquecimento do Passo A.1 e tente de novo |
+| Conecta (`✓ garmin connected`), mas toda chamada trava em "Request timed out" | Seu `opencode.json` é de uma versão antiga, com timeout de 30s por requisição — baixe o ZIP de novo (Passo B.1), extraia por cima, ou migre para a [Rota A](#rota-a) (global, sem esse arquivo) |
+| O instalador de habilidades (A.2) falhou | Rode de novo; se persistir, siga a [Rota B](#rota-b) (as habilidades vêm dentro da pasta) |
 | A IA diz que não encontrou as zonas | Você ainda não calibrou — rode `calibra minhas zonas` (Passo A.5) |
-| A geração de imagem falha | Falta o Playwright — rode o Passo A.3 (ou B.4) |
+| A geração de imagem falha | Falta o Playwright — rode o Passo A.3 |
 | Windows bloqueou o `uv` (Smart App Control) | Siga [esta seção do README do projeto](https://github.com/leonardocroda/garmin_mcp#windows-smart-app-control-blocks-uv--uvx) |
 | Erro 429 (limite de requisições) | Espere ~1 min ou troque de modelo no seletor — detalhes no [Tutorial 2](./tutorial-2-nvidia-modelos.md) |
 
 ---
 
-## FAQ
+## FAQ {: #faq }
 
 **Preciso fazer tudo isso toda vez que treinar?**
-Não. No dia a dia (Rota A): `cd C:\garmin-ia` → `opencode pair` → conversa. Na Rota B, abra o OpenCode em qualquer pasta e converse. O login do Garmin vale ~6 meses.
+Não. Rota A: abra o OpenCode em qualquer pasta e converse. Rota B: `cd C:\garmin-ia` → `opencode pair`. O login do Garmin vale ~6 meses.
 
 **Quanto custa?**
 R$0: conector open source + free tier da NVIDIA — sem cota mensal de tokens, com limite de ~40 requisições/min por modelo (detalhes no [Tutorial 2](./tutorial-2-nvidia-modelos.md)). Se um dia quiser mais, dá pra trocar de provedor sem mexer em nada do que você configurou.
@@ -282,13 +290,16 @@ R$0: conector open source + free tier da NVIDIA — sem cota mensal de tokens, c
 Login do Garmin: tokens só no seu PC. API da NVIDIA: só a chave, no seu PC. Os dados que você pede para analisar passam pela API do modelo — como qualquer IA em nuvem. Se um dia quiser privacidade total, dá para rodar modelos locais (Ollama) no lugar.
 
 **Funciona no celular?**
-A IA roda no PC. Da pra usar a interface pelo celular na mesma rede: rode `opencode serve --hostname 0.0.0.0 --port 4096` dentro da pasta, descubra o IP do PC com `ipconfig` e abra `http://SEU-IP:4096` no navegador do celular. (Só na sua rede doméstica — o PC precisa ficar ligado.)
+A IA roda no PC. Da pra usar a interface pelo celular na mesma rede: rode `opencode serve --hostname 0.0.0.0 --port 4096`, descubra o IP do PC com `ipconfig` e abra `http://SEU-IP:4096` no navegador do celular. (Só na sua rede doméstica — o PC precisa ficar ligado.)
 
 **E Mac/Linux?**
 Funciona com pequenos ajustes (o [README do projeto](https://github.com/leonardocroda/garmin_mcp) cobre). Este guia é Windows porque é onde todo o fluxo foi testado ponta a ponta.
 
 **Atualizou as habilidades — como pego a versão nova?**
-Baixe o ZIP de novo (Passo A.1) e extraia por cima (Rota B: re-copie as habilidades do passo B.3). Suas zonas ficam no seu `vdot_zones.json` — só recalibre se quiser.
+Rota A: rode o comando do Passo A.2 de novo (ele sobrescreve). Rota B: baixe o ZIP de novo (Passo B.1) e extraia por cima. Suas zonas ficam no seu `vdot_zones.json` — só recalibre se quiser.
+
+**Como desinstalo tudo?**
+Rota A: apague a pasta `%USERPROFILE%\.config\opencode\skills` e o bloco `garmin` dentro de `%USERPROFILE%\.config\opencode\opencode.json`. Rota B: apague a pasta `C:\garmin-ia`. O login do Garmin mora em `~/.garminconnect`, se quiser remover também.
 
 ---
 
