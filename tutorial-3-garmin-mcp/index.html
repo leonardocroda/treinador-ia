@@ -1,0 +1,1339 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Monte no seu PC uma IA que avalia seus treinos do Garmin com as suas zonas, cria treinos direto no relógio e gera a foto pronta pro story.">
+      
+      
+      
+        <link rel="canonical" href="https://leonardocroda.github.io/treinador-ia/tutorial-3-garmin-mcp/">
+      
+      
+        <link rel="prev" href="../tutorial-2-nvidia-modelos/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>3 · Conecte seu Garmin - Seu Treinador de IA de Corrida</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorial-3-conecte-seu-garmin-a-ia-a-ia-que-conhece-seus-treinos" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Seu Treinador de IA de Corrida" class="md-header__button md-logo" aria-label="Seu Treinador de IA de Corrida" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seu Treinador de IA de Corrida
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3 · Conecte seu Garmin
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange"  aria-label="Mudar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange"  aria-label="Mudar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/leonardocroda/treinador-ia" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    leonardocroda/treinador-ia
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Seu Treinador de IA de Corrida" class="md-nav__button md-logo" aria-label="Seu Treinador de IA de Corrida" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seu Treinador de IA de Corrida
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/leonardocroda/treinador-ia" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    leonardocroda/treinador-ia
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorial-1-opencode-do-zero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 · OpenCode do zero
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorial-2-nvidia-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 · Modelos melhores (NVIDIA)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 · Conecte seu Garmin
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 · Conecte seu Garmin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#como-funciona-30-segundos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Como funciona (30 segundos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PREPARAÇÃO (uma vez só — vale para qualquer rota)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PREPARAÇÃO (uma vez só — vale para qualquer rota)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#p1-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P.1 — Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p2-uv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P.2 — uv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p3-login-no-garmin-vale-6-meses-sem-baixar-nada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P.3 — Login no Garmin (vale ~6 meses, sem baixar nada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qual-rota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qual rota é a sua?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rota-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROTA A — Instalação global (a mais simples)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ROTA A — Instalação global (a mais simples)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a1-conectar-o-garmin-ao-opencode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.1 — Conectar o Garmin ao OpenCode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a2-instalar-as-habilidades-do-treinador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.2 — Instalar as habilidades do treinador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a3-gerador-de-imagem-recomendado-2-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.3 — Gerador de imagem (recomendado, ~2 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a4-teste-de-fumaca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.4 — Teste de fumaça 🎉
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a5-calibrar-suas-zonas-antes-da-primeira-analise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.5 — Calibrar SUAS zonas (antes da primeira análise)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a6-a-rotina-as-frases-magicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.6 — A rotina (as frases mágicas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rota-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROTA B — Pacote do treinador (tudo numa pasta)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ROTA B — Pacote do treinador (tudo numa pasta)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#b1-baixar-o-pacote-zip-sem-github-sem-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B.1 — Baixar o pacote (ZIP, sem GitHub, sem Git)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b2-instalar-o-conector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B.2 — Instalar o conector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b3-gerador-de-imagem-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B.3 — Gerador de imagem (recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b4-abrir-a-ia-dentro-da-pasta-do-treinador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B.4 — Abrir a IA dentro da pasta do treinador
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rota-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROTA C — Usar no Claude
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deu-ruim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deu ruim?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creditos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Créditos
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#como-funciona-30-segundos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Como funciona (30 segundos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PREPARAÇÃO (uma vez só — vale para qualquer rota)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PREPARAÇÃO (uma vez só — vale para qualquer rota)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#p1-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P.1 — Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p2-uv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P.2 — uv
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p3-login-no-garmin-vale-6-meses-sem-baixar-nada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P.3 — Login no Garmin (vale ~6 meses, sem baixar nada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qual-rota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qual rota é a sua?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rota-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROTA A — Instalação global (a mais simples)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ROTA A — Instalação global (a mais simples)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a1-conectar-o-garmin-ao-opencode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.1 — Conectar o Garmin ao OpenCode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a2-instalar-as-habilidades-do-treinador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.2 — Instalar as habilidades do treinador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a3-gerador-de-imagem-recomendado-2-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.3 — Gerador de imagem (recomendado, ~2 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a4-teste-de-fumaca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.4 — Teste de fumaça 🎉
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a5-calibrar-suas-zonas-antes-da-primeira-analise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.5 — Calibrar SUAS zonas (antes da primeira análise)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a6-a-rotina-as-frases-magicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A.6 — A rotina (as frases mágicas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rota-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROTA B — Pacote do treinador (tudo numa pasta)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ROTA B — Pacote do treinador (tudo numa pasta)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#b1-baixar-o-pacote-zip-sem-github-sem-git" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B.1 — Baixar o pacote (ZIP, sem GitHub, sem Git)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b2-instalar-o-conector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B.2 — Instalar o conector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b3-gerador-de-imagem-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B.3 — Gerador de imagem (recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b4-abrir-a-ia-dentro-da-pasta-do-treinador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B.4 — Abrir a IA dentro da pasta do treinador
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rota-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROTA C — Usar no Claude
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deu-ruim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deu ruim?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creditos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Créditos
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="tutorial-3-conecte-seu-garmin-a-ia-a-ia-que-conhece-seus-treinos">Tutorial 3 — Conecte seu Garmin à IA: a IA que conhece seus treinos<a class="headerlink" href="#tutorial-3-conecte-seu-garmin-a-ia-a-ia-que-conhece-seus-treinos" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Parte 3 de 3 da série "Seu treinador de IA de corrida".
+Pré-requisitos: <a href="../tutorial-1-opencode-do-zero/">Tutorial 1</a> (OpenCode instalado) e <a href="../tutorial-2-nvidia-modelos/">Tutorial 2</a> (modelo conectado).
+⏱ Tempo: ~30 min · 💰 Custo: R$0
+<strong>Prefere tudo numa pasta só, sem instalar nada global?</strong> Veja a <a href="#rota-b">Rota B</a>.
+<strong>Quer usar o Claude em vez do OpenCode?</strong> Vá para a <a href="#rota-c">Rota C</a>.</p>
+</blockquote>
+<p><strong>Ao final você terá uma IA que, sozinha:</strong></p>
+<ul>
+<li>🔥 <strong>Avalia seu treino do dia</strong> — busca a corrida no Garmin, compara km a km com <strong>suas zonas pessoais</strong> (calibradas no seu último teste) e olha sono, HRV e clima antes de dar o veredito</li>
+<li>🗓️ <strong>Monta treinos e joga no calendário do Garmin</strong> — "cria um 5x1km com 2min de recovery pra terça" aparece no seu relógio</li>
+<li>📸 <strong>Gera a foto do treino pronta pro story</strong> — 1080×1920, com gráfico de ritmo e coração</li>
+</ul>
+<p>Tudo por conversa, no navegador — <strong>funcionando em qualquer pasta</strong> do OpenCode.</p>
+<hr />
+<h2 id="como-funciona-30-segundos">Como funciona (30 segundos)<a class="headerlink" href="#como-funciona-30-segundos" title="Permanent link">&para;</a></h2>
+<p>Três peças conversando:</p>
+<ol>
+<li><strong>Seus dados no Garmin Connect</strong> — treinos, sono, HRV, zonas. Continuam no Garmin.</li>
+<li><strong>Um conector open source</strong> (<a href="https://github.com/Taxuspt/garmin_mcp">garmin_mcp</a>) no seu PC que dá à IA acesso de leitura (e criação de treinos) — o "MCP" é só o nome do protocolo que permite isso. Seu login do Garmin fica <strong>só no seu computador</strong>.</li>
+<li><strong>A IA</strong> (OpenCode + o modelo que você conectou no Tutorial 2), que agora sabe buscar seus dados quando você pede.</li>
+</ol>
+<p>Além do conector, existem <strong>4 habilidades de corrida</strong> prontas — as instruções que ensinam a IA a ser treinadora (calibrar zonas VDOT, avaliar treino contra elas, criar treinos, gerar a imagem do story). É o que separa "uma IA com seus dados" de "um treinador".</p>
+<hr />
+<h2 id="preparacao">PREPARAÇÃO (uma vez só — vale para qualquer rota)<a class="headerlink" href="#preparacao" title="Permanent link">&para;</a></h2>
+<h3 id="p1-python">P.1 — Python<a class="headerlink" href="#p1-python" title="Permanent link">&para;</a></h3>
+<p>Baixe em <strong>https://www.python.org/downloads/</strong> e, na instalação, <strong>marque "Add python.exe to PATH"</strong> (as habilidades de corrida usam Python).</p>
+<p>✅ <strong>Checkpoint:</strong> abra um PowerShell <strong>novo</strong> e rode <code>python --version</code> — deve aparecer <code>Python 3.x</code>.</p>
+<h3 id="p2-uv">P.2 — uv<a class="headerlink" href="#p2-uv" title="Permanent link">&para;</a></h3>
+<p>O <code>uv</code> instala e roda o resto (inclusive o Python do conector, se faltar):</p>
+<div class="highlight"><pre><span></span><code><span class="n">winget</span> <span class="n">install</span> <span class="p">-</span><span class="n">-id</span><span class="p">=</span><span class="n">astral-sh</span><span class="p">.</span><span class="n">uv</span> <span class="n">-e</span>
+</code></pre></div>
+<p>✅ <strong>Checkpoint:</strong> feche e reabra o PowerShell, rode <code>uv --version</code> — um número de versão aparece.</p>
+<h3 id="p3-login-no-garmin-vale-6-meses-sem-baixar-nada">P.3 — Login no Garmin (vale ~6 meses, sem baixar nada)<a class="headerlink" href="#p3-login-no-garmin-vale-6-meses-sem-baixar-nada" title="Permanent link">&para;</a></h3>
+<p>O login cria seus tokens no seu usuário (<code>~/.garminconnect</code>), apenas no seu PC — e vale para <strong>qualquer rota</strong> deste tutorial (incluindo a do Claude):</p>
+<div class="highlight"><pre><span></span><code><span class="n">uvx</span> <span class="p">-</span><span class="n">-python</span> <span class="n">3</span><span class="p">.</span><span class="n">12</span> <span class="p">-</span><span class="n">-from</span> <span class="n">git</span><span class="p">+</span><span class="n">https</span><span class="p">://</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">leonardocroda</span><span class="p">/</span><span class="n">garmin_mcp</span> <span class="n">garmin-mcp-auth</span>
+</code></pre></div>
+<p>Ele pede <strong>e-mail → senha → código MFA</strong> (se sua conta tiver).</p>
+<p>✅ <strong>Checkpoint:</strong> mensagem de sucesso/tokens salvos.</p>
+<hr />
+<h2 id="qual-rota">Qual rota é a sua?<a class="headerlink" href="#qual-rota" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Sua situação</th>
+<th>Rota</th>
+<th>O que você ganha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quero o mais simples possível / uso o OpenCode onde der / primeira vez</td>
+<td><strong><a href="#rota-a">Rota A</a></strong> (recomendada)</td>
+<td>Treinador instalado globalmente — funciona em qualquer pasta, 4 comandos de colar</td>
+</tr>
+<tr>
+<td>Prefiro tudo isolado <strong>numa única pasta</strong> (fácil de apagar depois)</td>
+<td><strong><a href="#rota-b">Rota B</a></strong></td>
+<td>O mesmo treinador, morando num diretório só</td>
+</tr>
+<tr>
+<td>Quero usar o <strong>Claude</strong> (Desktop/Code), não o OpenCode</td>
+<td><strong><a href="#rota-c">Rota C</a></strong></td>
+<td>Seus dados do Garmin no Claude</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>A diferença em uma frase:</strong> as duas primeiras rotas instalam exatamente o mesmo conjunto (conector + habilidades). A A deixa o OpenCode enxergar isso em qualquer pasta; a B concentra tudo num diretório. Escolha pela preferência — o resultado do dia a dia é o mesmo.</p>
+</blockquote>
+<hr />
+<h2 id="rota-a">ROTA A — Instalação global (a mais simples)<a class="headerlink" href="#rota-a" title="Permanent link">&para;</a></h2>
+<p>A partir daqui, seu treinador está disponível no OpenCode <strong>em qualquer pasta</strong> — você abre onde estiver trabalhando e conversa.</p>
+<h3 id="a1-conectar-o-garmin-ao-opencode">A.1 — Conectar o Garmin ao OpenCode<a class="headerlink" href="#a1-conectar-o-garmin-ao-opencode" title="Permanent link">&para;</a></h3>
+<p>Primeiro, um aquecimento (baixa o conector e evita timeout na primeira conexão):</p>
+<div class="highlight"><pre><span></span><code><span class="n">uvx</span> <span class="p">-</span><span class="n">-python</span> <span class="n">3</span><span class="p">.</span><span class="n">12</span> <span class="p">-</span><span class="n">-from</span> <span class="n">git</span><span class="p">+</span><span class="n">https</span><span class="p">://</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">leonardocroda</span><span class="p">/</span><span class="n">garmin_mcp</span> <span class="n">garmin-mcp</span>
+</code></pre></div>
+<p>Espere aparecer o log de inicialização (algo como "Trying to login…") e feche com <code>Ctrl+C</code>.</p>
+<p>Agora, o registro global:</p>
+<div class="highlight"><pre><span></span><code><span class="n">opencode</span> <span class="n">mcp</span> <span class="n">add</span> <span class="n">garmin</span> <span class="p">-</span><span class="n">-global</span> <span class="p">--</span> <span class="n">uvx</span> <span class="p">-</span><span class="n">-python</span> <span class="n">3</span><span class="p">.</span><span class="n">12</span> <span class="p">-</span><span class="n">-from</span> <span class="n">git</span><span class="p">+</span><span class="n">https</span><span class="p">://</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">leonardocroda</span><span class="p">/</span><span class="n">garmin_mcp</span> <span class="n">garmin-mcp</span>
+<span class="n">opencode</span> <span class="n">mcp</span> <span class="n">list</span>
+</code></pre></div>
+<p>✅ <strong>Checkpoint:</strong> <code>opencode mcp list</code> mostra:</p>
+<div class="highlight"><pre><span></span><code>✓ garmin   connected
+</code></pre></div>
+<h3 id="a2-instalar-as-habilidades-do-treinador">A.2 — Instalar as habilidades do treinador<a class="headerlink" href="#a2-instalar-as-habilidades-do-treinador" title="Permanent link">&para;</a></h3>
+<p>Um comando — baixa e instala as 4 habilidades (calibrar zonas, analisar treino, criar treinos, gerar a foto do story) na pasta global do OpenCode:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">iex </span><span class="p">((</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s2">"https://leonardocroda.github.io/treinador-ia/install-skills.ps1"</span><span class="p">))</span>
+</code></pre></div>
+<p>✅ <strong>Checkpoint:</strong> o script lista as habilidades instaladas (<code>analyze-garmin-run</code>, <code>calibrate-garmin-zones</code>, <code>create-garmin-training</code>, <code>generate-run-summary-image</code>) e a pasta delas.</p>
+<blockquote>
+<p>🔍 <strong>Transparência:</strong> não gosta de colar comandos às cegas? Justo. Este script só baixa o repositório de origem e copia a pasta <code>.opencode/skills</code> para <code>%USERPROFILE%\.config\opencode\skills</code> — <a href="https://github.com/leonardocroda/treinador-ia/blob/main/docs/install-skills.ps1">leia o código-fonte aqui</a> (é curto). Para remover depois: apague essa pasta.</p>
+</blockquote>
+<h3 id="a3-gerador-de-imagem-recomendado-2-min">A.3 — Gerador de imagem (recomendado, ~2 min)<a class="headerlink" href="#a3-gerador-de-imagem-recomendado-2-min" title="Permanent link">&para;</a></h3>
+<p>Só quem quer a foto pro story (é o 3º superpoder — vale os 2 minutos):</p>
+<div class="highlight"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">playwright</span>
+<span class="n">python</span> <span class="n">-m</span> <span class="n">playwright</span> <span class="n">install</span> <span class="n">chromium</span>
+</code></pre></div>
+<p>✅ <strong>Checkpoint:</strong> o segundo comando baixa o Chromium e termina sem erro.</p>
+<h3 id="a4-teste-de-fumaca">A.4 — Teste de fumaça 🎉<a class="headerlink" href="#a4-teste-de-fumaca" title="Permanent link">&para;</a></h3>
+<p>Abra o OpenCode <strong>em qualquer pasta</strong> (só não dentro da instalação dele):</p>
+<div class="highlight"><pre><span></span><code><span class="n">opencode</span> <span class="n">pair</span>     <span class="c"># interface web (abra o link que aparecer)</span>
+<span class="c"># ou</span>
+<span class="n">opencode</span>          <span class="c"># interface no terminal</span>
+</code></pre></div>
+<p>Na conversa, digite:</p>
+<div class="highlight"><pre><span></span><code>pega meu treino de ontem
+</code></pre></div>
+<p>Se a IA responder com os dados reais da sua corrida — funcionou. Ela acabou de buscar seus dados do Garmin sozinha.</p>
+<h3 id="a5-calibrar-suas-zonas-antes-da-primeira-analise">A.5 — Calibrar SUAS zonas (antes da primeira análise)<a class="headerlink" href="#a5-calibrar-suas-zonas-antes-da-primeira-analise" title="Permanent link">&para;</a></h3>
+<p>Suas zonas de ritmo são pessoais: nascem do <strong>seu</strong> último teste. Na conversa:</p>
+<div class="highlight"><pre><span></span><code>calibra minhas zonas
+</code></pre></div>
+<p>Ela entrevista você: <strong>qual foi seu último teste</strong> (5K, 10K, meia…) → <strong>tempo</strong> → <strong>data</strong>. Calcula seu VDOT (método Jack Daniels) e salva suas 5 zonas num arquivo que fica só no seu PC. Todas as análises passam a usar essas zonas.</p>
+<blockquote>
+<p>🏃 Sem teste recente? Vale qualquer resultado cronometrado honesto — 10K serve, 5K serve. Quando fizer um teste novo, é só pedir "calibra minhas zonas" de novo.</p>
+</blockquote>
+<h3 id="a6-a-rotina-as-frases-magicas">A.6 — A rotina (as frases mágicas)<a class="headerlink" href="#a6-a-rotina-as-frases-magicas" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Você digita</th>
+<th>A IA faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>avalia meu treino de hoje</code></td>
+<td>Busca a corrida, compara km a km com suas zonas, olha sono/HRV/clima e dá o veredito</td>
+</tr>
+<tr>
+<td><code>avalia minha semana</code></td>
+<td>Review dos 7 dias com carga e sugestões</td>
+</tr>
+<tr>
+<td><code>cria um 5x1km com 2min de recovery pra terça</code></td>
+<td>Monta o treino com SEU ritmo de intervalo e joga no calendário do Garmin</td>
+</tr>
+<tr>
+<td><code>cria 2x3km a threshold com 5min recovery, sábado</code></td>
+<td>Idem, no seu ritmo de limiar</td>
+</tr>
+<tr>
+<td><code>gera a imagem do treino de hoje</code></td>
+<td>Monta a foto 1080×1920 pro story, com gráfico de ritmo e coração</td>
+</tr>
+</tbody>
+</table>
+<p>Depois de sincronizar, os treinos criados aparecem no calendário do relógio. No dia, é apertar play — o relógio apita cada série no ritmo certo.</p>
+<hr />
+<h2 id="rota-b">ROTA B — Pacote do treinador (tudo numa pasta)<a class="headerlink" href="#rota-b" title="Permanent link">&para;</a></h2>
+<p>A mesma experiência da Rota A, mas tudo mora num único diretório — e some do sistema se você apagá-lo. Pense como instalar um app: você baixa <strong>uma pasta</strong> uma única vez, e ela passa a ser onde o treinador mora. O OpenCode, ao abrir dentro dela, encontra o conector <strong>e</strong> as habilidades sozinho.</p>
+<blockquote>
+<p><strong>Pré-requisito:</strong> a <a href="#preparacao">Preparação</a> acima (Python, uv e login do Garmin feitos).</p>
+</blockquote>
+<h3 id="b1-baixar-o-pacote-zip-sem-github-sem-git">B.1 — Baixar o pacote (ZIP, sem GitHub, sem Git)<a class="headerlink" href="#b1-baixar-o-pacote-zip-sem-github-sem-git" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Abra o repositório: https://github.com/leonardocroda/garmin_mcp</li>
+<li>Botão verde <strong><code>&lt;&gt; Code</code></strong> → <strong>Download ZIP</strong></li>
+<li>Clique com o direito → <strong>Extrair tudo…</strong> → extraia em <strong><code>C:\garmin-ia</code></strong></li>
+</ol>
+<blockquote>
+<p>Se o Windows extrair como <code>garmin_mcp-main</code>, renomeie a pasta para <code>garmin-ia</code>.</p>
+</blockquote>
+<p>✅ <strong>Checkpoint:</strong> dentro de <code>C:\garmin-ia</code> existem <code>pyproject.toml</code>, <code>opencode.json</code> e a pasta <code>.opencode</code> (as habilidades de corrida moram lá).</p>
+<h3 id="b2-instalar-o-conector">B.2 — Instalar o conector<a class="headerlink" href="#b2-instalar-o-conector" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">garmin-ia</span>
+<span class="n">uv</span> <span class="n">sync</span>
+</code></pre></div>
+<p>Baixa o Python e as dependências do servidor. Pode demorar alguns minutos na primeira vez.</p>
+<p>✅ <strong>Checkpoint:</strong> termina sem erro vermelho.</p>
+<h3 id="b3-gerador-de-imagem-recomendado">B.3 — Gerador de imagem (recomendado)<a class="headerlink" href="#b3-gerador-de-imagem-recomendado" title="Permanent link">&para;</a></h3>
+<p>Os mesmos dois comandos da Rota A — <a href="#a3-gerador-de-imagem-recomendado-2-min">Passo A.3</a>.</p>
+<h3 id="b4-abrir-a-ia-dentro-da-pasta-do-treinador">B.4 — Abrir a IA dentro da pasta do treinador<a class="headerlink" href="#b4-abrir-a-ia-dentro-da-pasta-do-treinador" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">garmin-ia</span>
+<span class="n">opencode</span> <span class="n">pair</span>     <span class="c"># interface web (abra o link que aparecer)</span>
+<span class="c"># ou</span>
+<span class="n">opencode</span>          <span class="c"># interface no terminal</span>
+</code></pre></div>
+<p>✅ <strong>Checkpoint:</strong> em outro PowerShell, rode <code>opencode mcp list</code> — deve mostrar <code>✓ garmin connected</code>. Teste de fumaça: peça <code>pega meu treino de ontem</code>.</p>
+<p><strong>Zonas e rotina:</strong> idênticas à <a href="#rota-a">Rota A</a> — <a href="#a5-calibrar-suas-zonas-antes-da-primeira-analise">A.5</a> e <a href="#a6-a-rotina-as-frases-magicas">A.6</a>.</p>
+<blockquote>
+<p>💡 <strong>Mudou de ideia e quer isso em qualquer pasta?</strong> Rode a <a href="#rota-a">Rota A</a> depois — nada do que você configurou aqui se perde.</p>
+</blockquote>
+<hr />
+<h2 id="rota-c">ROTA C — Usar no Claude<a class="headerlink" href="#rota-c" title="Permanent link">&para;</a></h2>
+<p>O conector é um servidor MCP padrão: funciona no Claude Desktop (e Claude Code) igual ao OpenCode. O que muda é só onde você cola a configuração.</p>
+<blockquote>
+<p>💡 Fez a <a href="#preparacao">Preparação</a> acima? O login do Garmin já está feito — pule direto para a instalação. Se veio direto pra esta rota, autentique primeiro:</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">uvx</span> <span class="p">-</span><span class="n">-python</span> <span class="n">3</span><span class="p">.</span><span class="n">12</span> <span class="p">-</span><span class="n">-from</span> <span class="n">git</span><span class="p">+</span><span class="n">https</span><span class="p">://</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">Taxuspt</span><span class="p">/</span><span class="n">garmin_mcp</span> <span class="n">garmin-mcp-auth</span>
+</code></pre></div>
+<p><strong>Opção 1 — Claude Desktop, instalação com 1 clique (recomendada):</strong></p>
+<ol>
+<li>Baixe <code>garmin-mcp.dxt</code> em https://github.com/Taxuspt/garmin_mcp/releases</li>
+<li>Arraste o arquivo para a janela do Claude Desktop (ou Settings → Extensions → Install Extension)</li>
+<li>Se ele pedir e-mail/senha na configuração, pode deixar em branco — você já se autenticou no passo acima</li>
+</ol>
+<p><strong>Opção 2 — Claude Desktop, configuração manual:</strong></p>
+<p>Edite <code>%APPDATA%\Claude\claude_desktop_config.json</code> (Settings → Developer → Edit Config):</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"garmin"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uvx"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"--python"</span><span class="p">,</span><span class="w"> </span><span class="s2">"3.12"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"--from"</span><span class="p">,</span><span class="w"> </span><span class="s2">"git+https://github.com/leonardocroda/garmin_mcp"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"garmin-mcp"</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Depois de qualquer opção:</strong> feche o Claude Desktop <strong>completamente</strong> (quit, não só fechar a janela) e abra de novo.</p>
+<p>✅ <strong>Checkpoint:</strong> no Claude, no ícone de conectores da caixa de mensagem, o <strong>garmin</strong> aparece com as ferramentas dele (peça "pega meu treino de ontem").</p>
+<p><strong>Claude Code (terminal):</strong> <code>claude mcp add garmin -- uvx --python 3.12 --from git+https://github.com/leonardocroda/garmin_mcp garmin-mcp</code></p>
+<blockquote>
+<p>ℹ️ <strong>Duas notas honestas sobre o Claude:</strong>
+- No claude.ai (web) os "connectors" só aceitam servidores MCP <strong>remotos</strong> com URL pública — o conector local do seu PC não conecta lá. Funciona no Claude Desktop e Claude Code, que rodam na sua máquina
+- As 4 habilidades de corrida prontas são carregadas pelo OpenCode. No Claude você conversa com seus dados do Garmin normalmente (peça a análise na conversa) — mas as instruções "de treinador" não vêm de fábrica</p>
+</blockquote>
+<hr />
+<h2 id="deu-ruim">Deu ruim?<a class="headerlink" href="#deu-ruim" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Sintoma</th>
+<th>Solução</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"uv não é reconhecido" / "python não é reconhecido"</td>
+<td>Feche <strong>todas</strong> as janelas do PowerShell e abra uma nova</td>
+</tr>
+<tr>
+<td>Login Garmin recusado</td>
+<td>Confira a senha em https://connect.garmin.com primeiro; com MFA, use o código que o Garmin manda na hora</td>
+</tr>
+<tr>
+<td>Garmin parou de responder depois de meses</td>
+<td>Token expirou (~6 meses): rode o login da Preparação com <code>--force-reauth</code> no fim</td>
+</tr>
+<tr>
+<td><code>opencode mcp list</code> mostra o garmin como connecting/não conecta</td>
+<td>Primeira execução baixa o servidor — rode o aquecimento do Passo A.1 e tente de novo</td>
+</tr>
+<tr>
+<td>Conecta (<code>✓ garmin connected</code>), mas toda chamada trava em "Request timed out"</td>
+<td>Seu <code>opencode.json</code> é de uma versão antiga, com timeout de 30s por requisição — baixe o ZIP de novo (Passo B.1), extraia por cima, ou migre para a <a href="#rota-a">Rota A</a> (global, sem esse arquivo)</td>
+</tr>
+<tr>
+<td>O instalador de habilidades (A.2) falhou</td>
+<td>Rode de novo; se persistir, siga a <a href="#rota-b">Rota B</a> (as habilidades vêm dentro da pasta)</td>
+</tr>
+<tr>
+<td>A IA diz que não encontrou as zonas</td>
+<td>Você ainda não calibrou — rode <code>calibra minhas zonas</code> (Passo A.5)</td>
+</tr>
+<tr>
+<td>A geração de imagem falha</td>
+<td>Falta o Playwright — rode o Passo A.3</td>
+</tr>
+<tr>
+<td>Windows bloqueou o <code>uv</code> (Smart App Control)</td>
+<td>Siga <a href="https://github.com/leonardocroda/garmin_mcp#windows-smart-app-control-blocks-uv--uvx">esta seção do README do projeto</a></td>
+</tr>
+<tr>
+<td>Erro 429 (limite de requisições)</td>
+<td>Espere ~1 min ou troque de modelo no seletor — detalhes no <a href="../tutorial-2-nvidia-modelos/">Tutorial 2</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
+<p><strong>Preciso fazer tudo isso toda vez que treinar?</strong>
+Não. Rota A: abra o OpenCode em qualquer pasta e converse. Rota B: <code>cd C:\garmin-ia</code> → <code>opencode pair</code>. O login do Garmin vale ~6 meses.</p>
+<p><strong>Quanto custa?</strong>
+R$0: conector open source + free tier da NVIDIA — sem cota mensal de tokens, com limite de ~40 requisições/min por modelo (detalhes no <a href="../tutorial-2-nvidia-modelos/">Tutorial 2</a>). Se um dia quiser mais, dá pra trocar de provedor sem mexer em nada do que você configurou.</p>
+<p><strong>Meus dados estão seguros?</strong>
+Login do Garmin: tokens só no seu PC. API da NVIDIA: só a chave, no seu PC. Os dados que você pede para analisar passam pela API do modelo — como qualquer IA em nuvem. Se um dia quiser privacidade total, dá para rodar modelos locais (Ollama) no lugar.</p>
+<p><strong>Funciona no celular?</strong>
+A IA roda no PC. Da pra usar a interface pelo celular na mesma rede: rode <code>opencode serve --hostname 0.0.0.0 --port 4096</code>, descubra o IP do PC com <code>ipconfig</code> e abra <code>http://SEU-IP:4096</code> no navegador do celular. (Só na sua rede doméstica — o PC precisa ficar ligado.)</p>
+<p><strong>E Mac/Linux?</strong>
+Funciona com pequenos ajustes (o <a href="https://github.com/leonardocroda/garmin_mcp">README do projeto</a> cobre). Este guia é Windows porque é onde todo o fluxo foi testado ponta a ponta.</p>
+<p><strong>Atualizou as habilidades — como pego a versão nova?</strong>
+Rota A: rode o comando do Passo A.2 de novo (ele sobrescreve). Rota B: baixe o ZIP de novo (Passo B.1) e extraia por cima. Suas zonas ficam no seu <code>vdot_zones.json</code> — só recalibre se quiser.</p>
+<p><strong>Como desinstalo tudo?</strong>
+Rota A: apague a pasta <code>%USERPROFILE%\.config\opencode\skills</code> e o bloco <code>garmin</code> dentro de <code>%USERPROFILE%\.config\opencode\opencode.json</code>. Rota B: apague a pasta <code>C:\garmin-ia</code>. O login do Garmin mora em <code>~/.garminconnect</code>, se quiser remover também.</p>
+<hr />
+<h2 id="creditos">Créditos<a class="headerlink" href="#creditos" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Conector (MCP): <a href="https://github.com/Taxuspt/garmin_mcp">Taxuspt/garmin_mcp</a>, via <a href="https://github.com/cyberjunky/python-garminconnect">python-garminconnect</a></li>
+<li>Habilidades de corrida (zonas VDOT, análise, treinos, imagem do story): <a href="https://github.com/leonardocroda">@leonardocroda</a> — <a href="https://github.com/leonardocroda/garmin_mcp">fork com as skills</a></li>
+<li>Zonas: método VDOT de <em>Jack Daniels' Running Formula</em></li>
+<li>Série: Tutorial 1 (OpenCode) → Tutorial 2 (NVIDIA) → Tutorial 3 (este)</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Feito com MkDocs Material · conteúdo sob CC BY 4.0
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

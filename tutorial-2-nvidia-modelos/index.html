@@ -1,0 +1,797 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Monte no seu PC uma IA que avalia seus treinos do Garmin com as suas zonas, cria treinos direto no relógio e gera a foto pronta pro story.">
+      
+      
+      
+        <link rel="canonical" href="https://leonardocroda.github.io/treinador-ia/tutorial-2-nvidia-modelos/">
+      
+      
+        <link rel="prev" href="../tutorial-1-opencode-do-zero/">
+      
+      
+        <link rel="next" href="../tutorial-3-garmin-mcp/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2 · Modelos melhores (NVIDIA) - Seu Treinador de IA de Corrida</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorial-2-modelos-melhores-de-graca-nvidia-nim-no-opencode" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Seu Treinador de IA de Corrida" class="md-header__button md-logo" aria-label="Seu Treinador de IA de Corrida" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seu Treinador de IA de Corrida
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 · Modelos melhores (NVIDIA)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange"  aria-label="Mudar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="deep-orange"  aria-label="Mudar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/leonardocroda/treinador-ia" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    leonardocroda/treinador-ia
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Seu Treinador de IA de Corrida" class="md-nav__button md-logo" aria-label="Seu Treinador de IA de Corrida" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seu Treinador de IA de Corrida
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/leonardocroda/treinador-ia" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    leonardocroda/treinador-ia
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorial-1-opencode-do-zero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 · OpenCode do zero
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 · Modelos melhores (NVIDIA)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 · Modelos melhores (NVIDIA)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#por-que-a-nvidia-30-segundos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por que a NVIDIA? (30 segundos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-1-criar-conta-na-nvidia-e-gerar-sua-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1 — Criar conta na NVIDIA e gerar sua API key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-2-conectar-a-nvidia-no-opencode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2 — Conectar a NVIDIA no OpenCode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-3-escolher-seu-modelo-de-trabalho" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 3 — Escolher seu modelo de trabalho
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uma-nota-honesta-sobre-dados-e-limites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uma nota honesta sobre dados e limites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deu-ruim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deu ruim?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proximo-passo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Próximo passo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorial-3-garmin-mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 · Conecte seu Garmin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#por-que-a-nvidia-30-segundos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por que a NVIDIA? (30 segundos)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-1-criar-conta-na-nvidia-e-gerar-sua-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1 — Criar conta na NVIDIA e gerar sua API key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-2-conectar-a-nvidia-no-opencode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2 — Conectar a NVIDIA no OpenCode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-3-escolher-seu-modelo-de-trabalho" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 3 — Escolher seu modelo de trabalho
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uma-nota-honesta-sobre-dados-e-limites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uma nota honesta sobre dados e limites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deu-ruim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deu ruim?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proximo-passo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Próximo passo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="tutorial-2-modelos-melhores-de-graca-nvidia-nim-no-opencode">Tutorial 2 — Modelos melhores, de graça: NVIDIA NIM no OpenCode<a class="headerlink" href="#tutorial-2-modelos-melhores-de-graca-nvidia-nim-no-opencode" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Parte 2 de 3 da série "Seu treinador de IA de corrida".
+Pré-requisito: <a href="../tutorial-1-opencode-do-zero/">Tutorial 1</a> (OpenCode instalado e abrindo).
+⏱ Tempo: ~10 min · 💰 Custo: R$0</p>
+</blockquote>
+<p><strong>Ao final você terá:</strong> modelos de IA mais capazes que os do trial gratuito do OpenCode, sem os limites curtos de uso — conectados à sua conta, escolhidos por você, prontos para o dia a dia.</p>
+<hr />
+<h2 id="por-que-a-nvidia-30-segundos">Por que a NVIDIA? (30 segundos)<a class="headerlink" href="#por-que-a-nvidia-30-segundos" title="Permanent link">&para;</a></h2>
+<p>O trial do OpenCode é ótimo para degustar, mas os modelos Free têm limites de uso curtos e o catálogo gira (modelos entram e saem). A alternativa que uso no dia a dia é a <strong>NVIDIA NIM</strong> (<a href="https://build.nvidia.com">build.nvidia.com</a>):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trial do OpenCode</th>
+<th>NVIDIA NIM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modelos</td>
+<td>Free com rate limit curto</td>
+<td>GLM 5.3, Kimi K2.6, DeepSeek V4, Nemotron…</td>
+</tr>
+<tr>
+<td>Limites</td>
+<td>Curtos, para degustar</td>
+<td>~40 requisições/min por modelo, sem cota mensal de tokens</td>
+</tr>
+<tr>
+<td>Catálogo</td>
+<td>Gira com o tempo</td>
+<td>Você escolhe e ele fica lá</td>
+</tr>
+<tr>
+<td>Setup</td>
+<td>API key do console</td>
+<td>API key da NVIDIA (2 min)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="passo-1-criar-conta-na-nvidia-e-gerar-sua-api-key">Passo 1 — Criar conta na NVIDIA e gerar sua API key<a class="headerlink" href="#passo-1-criar-conta-na-nvidia-e-gerar-sua-api-key" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Acesse https://build.nvidia.com e crie sua conta (login social ou e-mail — a NVIDIA pede verificação por SMS; número de telefone, sem cartão de crédito)</li>
+<li>Vá em <strong>API Keys</strong> → <strong>Generate API Key</strong> (Generate API Key)</li>
+<li>Dê um nome (ex.: <code>opencode</code>) e, se pedir, um prazo de expiração</li>
+<li><strong>Copie a chave imediatamente</strong> — ela começa com <code>nvapi-</code> e é mostrada uma única vez</li>
+</ol>
+<p>✅ <strong>Checkpoint:</strong> a chave copiada começa com <code>nvapi-</code> e está na sua área de transferência.</p>
+<hr />
+<h2 id="passo-2-conectar-a-nvidia-no-opencode">Passo 2 — Conectar a NVIDIA no OpenCode<a class="headerlink" href="#passo-2-conectar-a-nvidia-no-opencode" title="Permanent link">&para;</a></h2>
+<p><strong>Na interface web (o caminho mais simples):</strong></p>
+<ol>
+<li>Abra o seletor de modelos e clique em <strong>Connect provider</strong> (Conectar provedor)</li>
+<li>Busque <strong>nvidia</strong></li>
+<li>Cole a API key (<code>nvapi-…</code>) e confirme</li>
+<li>Os modelos da NVIDIA aparecem no seletor</li>
+</ol>
+<p><strong>Ou no terminal:</strong></p>
+<div class="highlight"><pre><span></span><code>/connect
+# → escolha NVIDIA → cole a API key
+
+/models
+# → escolha um modelo nvidia/...
+</code></pre></div>
+<p>✅ <strong>Checkpoint:</strong> pergunte à IA "qual modelo você é?" — ela deve se identificar como um dos modelos NVIDIA (ex.: GLM, Kimi, Nemotron).</p>
+<hr />
+<h2 id="passo-3-escolher-seu-modelo-de-trabalho">Passo 3 — Escolher seu modelo de trabalho<a class="headerlink" href="#passo-3-escolher-seu-modelo-de-trabalho" title="Permanent link">&para;</a></h2>
+<p>No seletor de modelos, alguns pontos de partida testados e bons para o uso da série (análise de treinos, conversa, tarefas no PC):</p>
+<ul>
+<li><strong>GLM 5.3</strong> (<code>zai/glm-5.3</code>) — forte em raciocínio e análise; é o que uso no dia a dia</li>
+<li><strong>Kimi K2.6</strong> (<code>moonshotai/kimi-k2.6</code>) — respostas rápidas</li>
+<li><strong>Nemotron</strong> (<code>nvidia/nemotron-…</code>) — a família da própria NVIDIA</li>
+</ul>
+<blockquote>
+<p>💡 Não existe "o melhor" — existe o melhor para o seu uso. Teste dois ou três nos primeiros dias e fique com um. O modelo fica salvo na sua conta; trocar depois é só abrir o seletor de novo.</p>
+</blockquote>
+<hr />
+<h2 id="uma-nota-honesta-sobre-dados-e-limites">Uma nota honesta sobre dados e limites<a class="headerlink" href="#uma-nota-honesta-sobre-dados-e-limites" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Não são créditos — é rate limit.</strong> A NVIDIA encerrou o antigo modelo de créditos: o free tier roda hoje com um limite de <strong>~40 requisições por minuto por modelo</strong> (o número exato aparece na sua conta, no topo do build.nvidia.com, e pode variar com o modelo e o tráfego do momento) e <strong>sem cota mensal de tokens</strong>. Uso pessoal de análise de treinos raramente chega perto disso</li>
+<li><strong>Se estourar (erro 429):</strong> espere um minuto ou troque de modelo no seletor — cada modelo tem o próprio limite, e a análise segue em outro tão bom quanto</li>
+<li><strong>O free tier é para uso de desenvolvimento/pessoal.</strong> Uso comercial/produção exige licença da NVIDIA — irrelevante para analisar seus treinos, mas é o combinado</li>
+<li><strong>Privacidade:</strong> os endpoints de teste operam em modo avaliação: a NVIDIA registra o uso para melhorar o serviço (não para treinar modelos). Dados de treino são de baixa sensibilidade, mas se for passar algo realmente confidencial, use um endpoint pago ou um modelo local</li>
+<li><strong>Sua API key fica salva no OpenCode, no seu PC</strong> — não compartilhe-a nem cole em sites</li>
+</ul>
+<hr />
+<h2 id="deu-ruim">Deu ruim?<a class="headerlink" href="#deu-ruim" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Sintoma</th>
+<th>Solução</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Erro 401/403 ao conversar</td>
+<td>Chave inválida ou expirada — gere outra em build.nvidia.com e reconecte</td>
+</tr>
+<tr>
+<td>"NVIDIA" não aparece na busca de provedores</td>
+<td>Atualize o OpenCode: <code>npm update -g @opencode/cli</code></td>
+</tr>
+<tr>
+<td>A chave foi recusada ao colar</td>
+<td>Copie de novo, sem espaços antes/depois (<code>nvapi-</code> até o fim)</td>
+</tr>
+<tr>
+<td>Erro 429 / resposta travou no meio</td>
+<td>Você atingiu o limite de requisições do minuto — espere ~1 min ou troque de modelo no seletor</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="proximo-passo">Próximo passo<a class="headerlink" href="#proximo-passo" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="../tutorial-3-garmin-mcp/">Tutorial 3 — Conecte seu Garmin: a IA que conhece seus treinos</a></strong> → o motivo desta série existir</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Feito com MkDocs Material · conteúdo sob CC BY 4.0
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
